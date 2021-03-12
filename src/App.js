@@ -89,6 +89,23 @@ class App extends React.Component{
           <br/>
           <button type="submit">Cadastrar</button>
         </form>
+        <br/>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descrição</th>
+          </tr>
+          {this.state.activities.map(activity => {
+            return (
+              <tr id={activity.id}>
+                <td>{activity.id}</td>
+                <td>{activity.title}</td>
+                <td>{activity.description}</td>
+              </tr>
+            )
+          })}
+        </table>
       </div>
       
     );
