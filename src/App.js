@@ -1,113 +1,47 @@
-import React from 'react';
+import React from "react";
+import FormActivity from "./components/FormActivity";
+import ListActivity from "./components/ListActivity";
+import './App.css';
 
-class App extends React.Component{
-  constructor(props){
-    super(props)
+class App extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      activity:{
-        id:null,
-        title:"",
-        description:"",
-        status:0
-      },
-      activities:[],
-
+      activities: [],
     };
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.storageFormValues = this.storageFormValues.bind(this);
-  }
-  
-  handleFormSubmit(event){
-    event.preventDefault();
-    this.setState({
-      activities: [...this.state.activities, this.state.activity]
-    })
-    console.table(this.state.activities);
-  }
-
-  storageFormValues(event){
-    const fieldName = event.target.getAttribute('name');
-    let fieldValue = event.target.value
-    if (fieldName==="status") {
-      fieldValue = !parseInt(fieldValue) ? 1 : 0;
-    }
-    
-    this.setState({
-      activity:{
-        ...this.state.activity,
-        id:this.state.activities.length,
-        [fieldName]:fieldValue
-      }
-    })
-
-  }
-
-  render(){
+    this.setState = this.setState.bind(this);
+    // -------------------------------------------------------------------------------------
     document.title = "ToDo App";
-    const linkIcon = document.head.querySelector('link[rel=icon]');
-    linkIcon.href = "https://softdesign.com.br/wp-content/themes/bones/favicon.png"
     
+    const linkIcon = document.head.querySelector("link[rel=icon]");
+    linkIcon.href =
+    "https://softdesign.com.br/wp-content/themes/bones/favicon.png";
+    
+    const styleBootstrap = document.createElement("link");
+    styleBootstrap.rel = "stylesheet";
+    styleBootstrap.href =
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css";
+    styleBootstrap.integrity =
+      "sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl";
+    styleBootstrap.crossOrigin = "anonymous";
+    document.head.appendChild(styleBootstrap);
+  
+    const scriptBootstrap = document.createElement("script");
+    scriptBootstrap.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js";
+    scriptBootstrap.integrity = "sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0";
+    scriptBootstrap.crossOrigin = "anonymous";
+  
+    document.body.appendChild(scriptBootstrap);
+    // ----------------------------------------------------------------------------------------
+  }
+
+  render() {
+
     return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label htmlFor="title" >Título da atividade: 
-            <input 
-              type="text" 
-              name="title" 
-              id="title" 
-              placeholder="ex. Refatorar classe App"
-              onChange={this.storageFormValues}
-              value={this.state.activity.title}
-            /> 
-          </label>
-          
-          <br/>
-          <br/>
-          <label htmlFor="description" >Descrição: 
-            <br/>
-            <textarea 
-              id="description" 
-              name="description" 
-              rows="10" 
-              cols="40" 
-              placeholder="ex. Necessária verificação do..."
-              onChange={this.storageFormValues}
-              value={this.state.activity.description}
-            ></textarea>
-          </label>
-          <br/>
-          <label>Tarefa finalizada? 
-            <input 
-              id="status" 
-              type="checkbox" 
-              name="status"
-              onChange={this.storageFormValues}
-              value={this.state.activity.status}
-            />        
-          </label>
-          <br/>
-          <br/>
-          <button type="submit">Cadastrar</button>
-        </form>
-        <br/>
-        <table>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Descrição</th>
-          </tr>
-          {this.state.activities.map(activity => {
-            return (
-              <tr id={activity.id}>
-                <td>{activity.id}</td>
-                <td>{activity.title}</td>
-                <td>{activity.description}</td>
-              </tr>
-            )
-          })}
-        </table>
+      <div className="app">
+        <FormActivity state={this.state} setState={this.setState} />
+        <ListActivity activities={this.state.activities} setState={this.setState}/>
       </div>
-      
     );
   }
 }
